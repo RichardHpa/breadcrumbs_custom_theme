@@ -73,7 +73,7 @@ function my_social_icons_output() {
 
 	if ( ! empty( $active_sites ) ) {
 
-		echo '<ul class="social-media-icons">';
+		echo '<div class="socials"><p>Follow Us</p><ul class="social-media-icons">';
 		foreach ( $active_sites as $key => $active_site ) {
             if($key == 'email'){
                 $class = 'fa fa-envelope';
@@ -96,6 +96,6 @@ function my_social_icons_output() {
                 <?php
             }
     }
-		echo "</ul>";
+		echo "</ul></div>";
 	}
 }

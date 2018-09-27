@@ -9,10 +9,7 @@
                             'container_class'   => 'footer_nav'
                         ) );
                         ?>
-                        <div class="socials">
-                            <p>Follow Us</p>
-                            <?php my_social_icons_output(); ?>
-                        </div>
+                        <?php my_social_icons_output(); ?>
                     </div>
                 </div>
                 <?php

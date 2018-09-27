@@ -128,8 +128,8 @@ $('#addNewSection').click(function(){
 				'<button class="remove_section_button button">Remove Section</button>'+
 			'</div>'+
         '</div>');
-        // $("#select_section_"+count).prepend(newSelect);
-        // $("#select_section_"+count).prepend('<label>Link to Page </label><br>');
+        $("#select_section_"+count).prepend(newSelect);
+        $("#select_section_"+count).prepend('<label>Link to Page </label><br>');
 
 
         valid = false;
@@ -190,10 +190,6 @@ $(document).on('click', '.remove_section_button', function(e) {
 });
 
 
-
-
-
-
 // $('#publish').click(function(){
 //     event.preventDefault();
 //     if(valid == false){
@@ -204,10 +200,6 @@ $(document).on('click', '.remove_section_button', function(e) {
 //         $('#post').submit();
 //     }
 // });
-
-
-
-
 
 
 function createTinyMCE(ID){

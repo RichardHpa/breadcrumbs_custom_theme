@@ -7,7 +7,9 @@
 @import 'partials/customizer';
 @import 'partials/header';
 @import 'partials/footer';
+@import 'partials/customOwl';
 @import 'partials/errors';
+@import 'partials/wordpressDefaults';
 
 body{
     font-family: 'Lato', sans-serif;
@@ -15,11 +17,6 @@ body{
 
 html, body{
     overflow-x: hidden !important;
-}
-
-.wp_content img {
-    max-width: 100%;
-    height: auto;
 }
 
 a.anchor{
@@ -71,7 +68,6 @@ a.anchor{
     background-size: cover;
     background-position: right;
     background-repeat: repeat-y;
-    padding-top: 2em;
 }
 
 .aboutSection:after{
@@ -145,49 +141,6 @@ a.anchor{
 .activityCarousel .card-footer{
     background-color: white;
     border-top: none;
-}
-
-.owl-prev {
-    width: 15px;
-    height: 100px;
-    position: absolute;
-    top: 40%;
-    left: -40px;
-    display: block!IMPORTANT;
-    border:0px solid black;
-}
-
-.owl-next {
-    width: 15px;
-    height: 100px;
-    position: absolute;
-    top: 40%;
-    right: -40px;
-    display: block!IMPORTANT;
-    border:0px solid black;
-}
-.owl-prev i, .owl-next i {transform : scale(2); color: #ccc;}
-
-.owl-prev:hover,
-.owl-next:hover{
-    background: transparent !important;
-}
-
-.owl-stage {
-   display: -webkit-flex;
-   display: -ms-flexbox;
-   display: flex;
-
-   -webkit-flex-wrap: wrap;
-   -ms-flex-wrap: wrap;
-   flex-wrap: wrap;
-}
-
-.owl-item{
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    height: auto !important;
 }
 
 .homeAlt{

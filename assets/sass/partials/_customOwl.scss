@@ -1,0 +1,52 @@
+.owl-prev {
+    width: 15px;
+    height: 100px;
+    position: absolute;
+    top: 40%;
+    left: -40px;
+    display: block!IMPORTANT;
+    border:0px solid black;
+}
+
+.owl-next {
+    width: 15px;
+    height: 100px;
+    position: absolute;
+    top: 40%;
+    right: -40px;
+    display: block!IMPORTANT;
+    border:0px solid black;
+}
+.owl-prev i, .owl-next i {transform : scale(2); color: #37b6b5;}
+
+.owl-prev:hover,
+.owl-next:hover{
+    background: transparent !important;
+}
+
+.owl-stage {
+   display: -webkit-flex;
+   display: -ms-flexbox;
+   display: flex;
+
+   -webkit-flex-wrap: wrap;
+   -ms-flex-wrap: wrap;
+   flex-wrap: wrap;
+}
+
+.owl-item{
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: auto !important;
+}
+
+@media (max-width: 1199.98px) {
+    .owl-prev {
+        left: 0px;
+    }
+
+    .owl-next {
+        right: 0px;
+    }
+}

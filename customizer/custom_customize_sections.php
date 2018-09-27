@@ -293,6 +293,9 @@ function breadcrumbs_customize_css(){
         footer{
             background-color: <?php echo get_theme_mod( 'footer_color_setting' ); ?> !important;
         }
+        ul.social-media-icons li a i{
+            color: <?php echo get_theme_mod( 'footer_color_setting' ); ?> !important;
+        }
 
         .footerNavContainer ul>li>a{
             color: <?php echo get_theme_mod( 'main_footer_link_colours_setting' ); ?> !important;

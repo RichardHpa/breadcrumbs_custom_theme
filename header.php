@@ -74,7 +74,7 @@
                     }
                 }
              ?>
-    
+
                  <div class="headerRow row h-100">
                      <div class="col-12 col-md-6 headerText align-self-center">
                          <div class="headerTitle mb-5 mb-sm-0">

@@ -14,7 +14,7 @@ footer {
 .footerNavContainer ul li a {
   color: #ffffff; }
 
-ul.sub-menu > li > a {
+ul.sub-menu li a {
   color: #37b6b5; }
 
 .home-icons p {
@@ -133,9 +133,6 @@ footer ul.menu > li {
 footer ul.menu > li:nth-child(6n) {
   clear: left; }
 
-footer ul.menu > li a {
-  color: white; }
-
 footer ul.sub-menu {
   padding: 0;
   padding-top: 12px;
@@ -185,20 +182,86 @@ footer .social-media-icons a {
   background-color: white;
   color: #0C495F; }
 
+.owl-prev {
+  width: 15px;
+  height: 100px;
+  position: absolute;
+  top: 40%;
+  left: -40px;
+  display: block !important;
+  border: 0px solid black; }
+
+.owl-next {
+  width: 15px;
+  height: 100px;
+  position: absolute;
+  top: 40%;
+  right: -40px;
+  display: block !important;
+  border: 0px solid black; }
+
+.owl-prev i, .owl-next i {
+  transform: scale(2);
+  color: #37b6b5; }
+
+.owl-prev:hover,
+.owl-next:hover {
+  background: transparent !important; }
+
+.owl-stage {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+
+.owl-item {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: auto !important; }
+
+@media (max-width: 1199.98px) {
+  .owl-prev {
+    left: 0px; }
+
+  .owl-next {
+    right: 0px; } }
 .errorPage {
   color: white; }
   .errorPage .col h1 {
     font-size: 10em; }
+
+.wp_content div {
+  max-width: 100%; }
+.wp_content img {
+  max-width: 100%;
+  height: auto; }
+.wp_content img.alignright {
+  float: right;
+  margin: 0 0 1em 1em; }
+.wp_content img.alignleft {
+  float: left;
+  margin: 0 1em 1em 0; }
+.wp_content img.aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
+.wp_content .alignright {
+  float: right; }
+.wp_content .alignleft {
+  float: left; }
+.wp_content .aligncenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto; }
 
 body {
   font-family: 'Lato', sans-serif; }
 
 html, body {
   overflow-x: hidden !important; }
-
-.wp_content img {
-  max-width: 100%;
-  height: auto; }
 
 a.anchor {
   display: block;
@@ -240,8 +303,7 @@ a.anchor {
   background-image: url("../images/background.png");
   background-size: cover;
   background-position: right;
-  background-repeat: repeat-y;
-  padding-top: 2em; }
+  background-repeat: repeat-y; }
 
 .aboutSection:after {
   clear: both;
@@ -303,46 +365,6 @@ a.anchor {
 .activityCarousel .card-footer {
   background-color: white;
   border-top: none; }
-
-.owl-prev {
-  width: 15px;
-  height: 100px;
-  position: absolute;
-  top: 40%;
-  left: -40px;
-  display: block !important;
-  border: 0px solid black; }
-
-.owl-next {
-  width: 15px;
-  height: 100px;
-  position: absolute;
-  top: 40%;
-  right: -40px;
-  display: block !important;
-  border: 0px solid black; }
-
-.owl-prev i, .owl-next i {
-  transform: scale(2);
-  color: #ccc; }
-
-.owl-prev:hover,
-.owl-next:hover {
-  background: transparent !important; }
-
-.owl-stage {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap; }
-
-.owl-item {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  height: auto !important; }
 
 .homeAlt {
   display: block; }
