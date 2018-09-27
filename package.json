@@ -1,0 +1,30 @@
+{
+  "name": "breadcrumbs",
+  "version": "1.0.0",
+  "description": "custom made wordpress theme built for a start up company called breadcrumbs",
+  "main": "index.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RichardHpaYoobee/breadcrumbs_custom_theme.git"
+  },
+  "keywords": [
+    "breadcrumbs",
+    "wordpress",
+    "custom",
+    "theme"
+  ],
+  "author": "Richard Hpa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RichardHpaYoobee/breadcrumbs_custom_theme/issues"
+  },
+  "homepage": "https://github.com/RichardHpaYoobee/breadcrumbs_custom_theme#readme",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-watch": "^1.1.0"
+  }
+}

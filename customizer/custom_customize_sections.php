@@ -10,28 +10,6 @@ function customCustomizer($wp_customize){
         'title' => __('Theme Styles', 'Breadcrumbs'),
         'priority' => 20,
     ));
-    //Header Background Colour
-	$wp_customize->add_setting(
-		'header_color_setting',
-		array(
-			'default'     => '#ffffff',
-			'type'        => 'theme_mod',
-			'capability'  => 'edit_theme_options',
-			'transport'   => 'refresh'
-		)
-	);
-	$wp_customize->add_control(
-		new Customize_Alpha_Color_Control(
-			$wp_customize,
-			'header_colour_control',
-			array(
-				'label'         => __( 'Header Background Colour', 'Breadcrumbs' ),
-				'section'       => 'theme_style_section',
-				'settings'      => 'header_color_setting',
-				'show_opacity'  => true
-			)
-		)
-	);
     //Header Links
     $wp_customize->add_setting(
         'header_link_colours_setting',
@@ -247,52 +225,6 @@ function customCustomizer($wp_customize){
         'description' => __( 'Change the styling of the header')
     ));
 
-    //Create the Promotions Icons
-    for ($i=1; $i <= 4 ; $i++) {
-        $wp_customize->add_section('Promotions_Icon_'.$i.'_section', array(
-            'title' => __('Promotions Icon '.$i, 'Breadcrumbs'),
-            'priority' => 30,
-            'panel' => 'Promotions_Panel'
-        ));
-
-        $wp_customize->add_setting('Promotions_Icon_'.$i.'_setting', array(
-            'default' => '0',
-            'sanitize_callback' => 'absint',
-            'transport' => 'refresh'
-        ));
-
-        $wp_customize->add_control(new WP_Customize_Cropped_Image_Control($wp_customize, 'Promotions_Icon_'.$i.'_setting_control', array(
-            'label' => __('Promotions Icon '.$i, 'Breadcrumbs'),
-            'section' => 'Promotions_Icon_'.$i.'_section',
-            'settings' => 'Promotions_Icon_'.$i.'_setting',
-            'width' => 300,
-            'height' => 300,
-            'flex_height' => true,
-            'flex_width' => true
-        )));
-
-        $wp_customize->add_setting('Promotions_Icon_'.$i.'_heading_Setting', array(
-            'transport' => 'refresh'
-        ));
-
-        $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'Promotions_icon_'.$i.'_Heading_Control', array(
-            'label' => __('Promotions Icon '.$i.'  Heading', 'Breadcrumbs'),
-            'section' => 'Promotions_Icon_'.$i.'_section',
-            'settings' => 'Promotions_Icon_'.$i.'_heading_Setting',
-            'type' => 'text'
-        )));
-
-        $wp_customize->add_setting('Promotions_Icon_'.$i.'_description_Setting', array(
-            'transport' => 'refresh'
-        ));
-
-        $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'Promotions_icon_'.$i.'_Description_Control', array(
-            'label' => __('Promotions Icon '.$i.'  Description', 'Breadcrumbs'),
-            'section' => 'Promotions_Icon_'.$i.'_section',
-            'settings' => 'Promotions_Icon_'.$i.'_description_Setting',
-            'type' => 'textarea'
-        )));
-    }
     $wp_customize->add_section('Promotions_Image', array(
         'title' => __('Promotions Large Image', 'Breadcrumbs'),
         'priority' => 30,
@@ -314,7 +246,7 @@ function customCustomizer($wp_customize){
     )));
 
     $wp_customize->add_section('promotions_icon_colour_section', array(
-        'title' => __('Icon Colour', 'Breadcrumbs'),
+        'title' => __('Icon Text Colour', 'Breadcrumbs'),
         'priority' => 30,
         'panel' => 'Promotions_Panel'
     ));
@@ -323,7 +255,7 @@ function customCustomizer($wp_customize){
     $wp_customize->add_setting(
         'promotions_icon_colour_setting',
         array(
-            'default' => '#ffffff',
+            'default' => '#000000',
             'transport' => 'refresh'
         )
     );
@@ -353,10 +285,6 @@ function breadcrumbs_customize_css(){
 ?>
 
     <style>
-        .bg-dark{
-            /* background-color: <?php echo get_theme_mod( 'header_color_setting' ); ?> !important; */
-            background-color: transparent !important;
-        }
 
         #header-nav-collapse ul li a{
             color: <?php echo get_theme_mod('header_link_colours_setting') ?> !important;
