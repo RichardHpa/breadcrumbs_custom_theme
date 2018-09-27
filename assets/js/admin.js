@@ -1,4 +1,5 @@
 $ = jQuery;
+
 var count = $("#header_count").val();
 var countArray = [];
 var deletedArray = [];
@@ -10,10 +11,16 @@ if(exsistingArrayString){
     }
 }
 var valid = true;
-var options = '<option value="null">What page do you want to link to?</option>';
-for (var i = 0; i < pageList.length; i++) {
-    options += '<option value="'+pageList[i].ID+'">'+pageList[i].post_title+'</option>';
+
+var selectTemplate;
+if($("#selectPagesTemplate").length){
+     selectTemplate = $("#selectPagesTemplate").clone().removeClass('hidden').removeAttr('id');
+     $("#selectPagesTemplate").remove();
 }
+
+
+
+
 
 jQuery( document ).ready( function( $ ) {
 	// Loop over each control and transform it into our color picker.
@@ -32,10 +39,18 @@ jQuery( document ).ready( function( $ ) {
 
 	createTinyMCE('header_description');
     createTinyMCE('page_description');
-	for (var i = 0; i < exsistingArray.length; i++) {
-		altTinyMCE('section_content_'+exsistingArray[i]);
-	}
+    if(exsistingArray){
+        for (var i = 0; i < exsistingArray.length; i++) {
+    		altTinyMCE('section_content_'+exsistingArray[i]);
+    	}
+    }
 });
+
+
+
+
+
+
 
 $(document).on('click', '.set_custom_images', function(e) {
     e.preventDefault();
@@ -49,11 +64,21 @@ $(document).on('click', '.set_custom_images', function(e) {
     return false;
 });
 
+
+
+
+
+
 $(document).on('click', '.remove_custom_images', function(e){
     e.preventDefault();
     $(this).parent().find('.process_custom_images').val('');
 
 });
+
+
+
+
+
 
 $('#addNewSection').click(function(){
     event.preventDefault();
@@ -64,7 +89,9 @@ $('#addNewSection').click(function(){
         countArray.push(count);
         var arrayString = countArray.toString();
         $("#exsistingArray").attr('value', arrayString);
-
+        var newSelect = selectTemplate.clone()
+        newSelect.attr('name', 'section_link_'+count);
+        console.log(newSelect[0]);
         $(this).parents('.inside').append('<div class="newAlternatingSection" data-id="'+count+'">'+
 			'<h3>Section</h3>'+
             '<div>'+
@@ -89,13 +116,7 @@ $('#addNewSection').click(function(){
 				'</div>'+
 			'</div>'+
 			'<div class="halfSection">'+
-				'<div class="form-group">'+
-					'<label>Link to Page </label><br>'+
-					'<select class="customInput" name="section_link_'+count+'">'+
-					options+
-					'<option>---</option>'+
-					'<option value="externalPage">Link to external Page</option>'+
-					'</select>'+
+				'<div id="select_section_'+count+'" class="form-group">'+
 					'<div class="externalLink" style="display:none;"><label>External Link</label><input type="text" class="customInput" name="section_external_link_'+count+'"></div>'+
 				'</div>'+
 				'<div class="form-group">'+
@@ -107,6 +128,10 @@ $('#addNewSection').click(function(){
 				'<button class="remove_section_button button">Remove Section</button>'+
 			'</div>'+
         '</div>');
+        // $("#select_section_"+count).prepend(newSelect);
+        // $("#select_section_"+count).prepend('<label>Link to Page </label><br>');
+
+
         valid = false;
         altTinyMCE('section_content_'+count);
     } else {
@@ -115,6 +140,11 @@ $('#addNewSection').click(function(){
         }
     }
 });
+
+
+
+
+
 
 $(document).on('blur', '.customTextarea', function(e) {
     if($(this).val().length > 0){
@@ -125,6 +155,10 @@ $(document).on('blur', '.customTextarea', function(e) {
     }
 });
 
+
+
+
+
 $(document).on('change', 'select.customInput', function(e){
     var value = $(this).val();
     if(value == 'externalPage'){
@@ -134,6 +168,10 @@ $(document).on('change', 'select.customInput', function(e){
         $(this).parent().find('input').val("");
     }
 });
+
+
+
+
 
 $(document).on('click', '.remove_section_button', function(e) {
     e.preventDefault();
@@ -151,16 +189,26 @@ $(document).on('click', '.remove_section_button', function(e) {
     $(this).parents('.newAlternatingSection').remove();
 });
 
-$('#publish').click(function(){
-    event.preventDefault();
-    if(valid == false){
-        if(!$('.alert-error').length){
-            $(this).parents('.inside').prepend('<div class="alert-error">Please fill out at least the section content before adding another section.</div>');
-        }
-    } else {
-        $('#post').submit();
-    }
-});
+
+
+
+
+
+// $('#publish').click(function(){
+//     event.preventDefault();
+//     if(valid == false){
+//         if(!$('.alert-error').length){
+//             $(this).parents('.inside').prepend('<div class="alert-error">Please fill out at least the section content before adding another section.</div>');
+//         }
+//     } else {
+//         $('#post').submit();
+//     }
+// });
+
+
+
+
+
 
 function createTinyMCE(ID){
     var editorID = ID;
@@ -174,6 +222,10 @@ function createTinyMCE(ID){
     });
     tinymce.EditorManager.execCommand('mceAddEditor', true, editorID);
 }
+
+
+
+
 
 function altTinyMCE(ID){
     var editorID = ID;

@@ -93,21 +93,6 @@ $metaboxes = array(
             )
         )
     ),
-    'company_content' => array(
-        'title' => __('Company Content', 'Breadcrumbs'),
-        'applicableto' => 'page',
-        'location' => 'normal',
-        'priority' => 'core',
-        'display_condition' => 'Promotions Template',
-        'fields' => array(
-            'company_main' => array(
-                'title' => __('Company Main Content: ', 'Breadcrumbs'),
-                'type' => 'dynamic_textarea',
-                'description' => 'Content for the pages which have companies on them',
-                'size' => 100
-            )
-        )
-    ),
     'promotion_content' => array(
         'title' => __('Promotional Content', 'Breadcrumbs'),
         'applicableto' => 'promotions',
@@ -170,35 +155,6 @@ function show_metaboxes( $post, $args ) {
                     }
                     $output .= '<div class="form-group half-group"><div id="'.$id.'" class="radio"><label>'.$field['title'].'</label><br><input type="checkbox" '.$checked.' name="'.$id.'"value="yes"/></div></div>';
                 break;
-                case "wusiwug":
-                    $output .= '<label>'.$field['title'].'</label>';
-                    $old_description = get_post_meta($post->ID, $id, true);
-                    $editor_id = $id;
-                    $settings = array(
-                        'media_buttons' => false,
-                        'textarea_rows' => 3,
-                        'teeny' => true);
-                    wp_editor( $old_description , $editor_id, $settings );
-                break;
-                case 'dynamic_textarea':
-                    $old_description = get_post_meta($post->ID, $id, true);
-                    $editor_id = $id;
-                    $settings = array(
-                        'media_buttons' => false,
-                        'textarea_rows' => 3,
-                        'teeny' => true);
-                    wp_editor( $old_description , $editor_id, $settings );
-                break;
-                case 'checkbox-right':
-                    $value = get_post_meta( $post->ID, $id, true );
-
-                    if($value == 'yes'){
-                        $checked = 'checked="checked"';
-                    } else {
-                        $checked = null;
-                    }
-                    $output .= '<div class="form-group"><div id="'.$id.'" class="radio"><label>'.$field['title'].'</label><input type="checkbox" '.$checked.' name="'.$id.'"value="yes"/></div></div>';
-                break;
                 case 'alternatingSections':
                     if($custom[$id][0] == null){
                         $countValue = 0;
@@ -228,11 +184,28 @@ function show_metaboxes( $post, $args ) {
                     foreach ($pages as $page) {
                         array_push($pageList, $page);
                     }
-                    ?>
-                    <script type="text/javascript">
-                    var pageList = <?= json_encode($pageList); ?>;
-                    </script>
-                    <?php
+
+
+                    $output .= '<select id="selectPagesTemplate" class="customInput hidden" name="section_link_'.$section.'">';
+                    $output .= '<option value="null">What page do you want to link to?</option>';
+                    foreach($pages as $page){
+                        if ( $page->ID == $link ) {
+                            $selected = 'selected';
+                        } else if($link == 'externalPage'){
+                            $selected = 'selected';
+                            $display = 'block';
+                        }else {
+                            $selected = null;
+                            $display = 'none;';
+                        }
+                        $output .= '<option value="'.$page->ID.'" '.$selected.'>'.$page->post_title.'</option>';
+                    };
+                    $output .= '<option disabled>---</option>';
+                    $output .= '<option value="externalPage"'.$selected.'>Link to external Page</option>';
+                    $output .= '</select>';
+
+
+
                     if($exsistingSections){
                         foreach($exsistingSectionsArray as $section) {
                             $title =  get_post_meta( $post->ID, 'section_title_'.$section, true );
@@ -252,7 +225,6 @@ function show_metaboxes( $post, $args ) {
                                 $checked = 'checked';
                             }
                             $selected = "selected";
-
 
                             $output .= '<hr><div class="newAlternatingSection" data-id="'.$section.'">';
                                 $output .= '<h3>Section</h3>';
@@ -320,131 +292,4 @@ function show_metaboxes( $post, $args ) {
         }
     }
     echo $output;
-}
-
-function save_metaboxes( $post_id ) {
-
-    global $metaboxes;
-
-    if ( ! wp_verify_nonce( $_POST['post_format_meta_box_nonce'], basename( __FILE__ ) ) )
-        return $post_id;
-
-    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
-        return $post_id;
-
-    if ( 'page' == $_POST['post_type'] ) {
-        if ( ! current_user_can( 'edit_page', $post_id ) )
-            return $post_id;
-    } elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
-        return $post_id;
-    }
-    $post_type = get_post_type();
-
-    foreach ( $metaboxes as $id => $metabox ) {
-        if ( $metabox['applicableto'] == $post_type ) {
-            $fields = $metaboxes[$id]['fields'];
-
-            foreach ( $fields as $id => $field ) {
-                $old = get_post_meta( $post_id, $id, true );
-                $new = $_POST[$id];
-
-                if ( $new && $new != $old ) {
-                    update_post_meta( $post_id, $id, $new );
-                }
-                elseif ( '' == $new && $old || ! isset( $_POST[$id] ) ) {
-                    delete_post_meta( $post_id, $id, $old );
-                }
-            }
-        }
-    }
-
-    if($_POST['deletingSections']){
-        $exsistingDeleteArray = explode(',', $_POST['deletingSections']);
-        if(sizeof($exsistingDeleteArray) > 0){
-            update_post_meta( $post_id, 'sectionArray', $_POST['exsistingSections'] );
-            foreach($exsistingDeleteArray as $section) {
-                $title =  get_post_meta( $post->ID, 'section_title_'.$section, true );
-                $content =  get_post_meta( $post->ID, 'section_content_'.$section, true );
-                $image =  get_post_meta( $post->ID, 'section_image_'.$section, true );
-                $imageLink = get_post_meta( $post->ID, 'section_image_link_'.$section, true );
-
-                delete_post_meta( $post_id, 'section_title_'.$section);
-                delete_post_meta( $post_id, 'section_content_'.$section);
-                delete_post_meta( $post_id, 'section_image_'.$section);
-                delete_post_meta( $post_id, 'section_link_'.$section);
-                delete_post_meta( $post_id, 'section_button_'.$section);
-                delete_post_meta( $post_id, 'section_image_link_'.$section);
-
-            }
-        }
-    }
-    if($_POST['exsistingSections']){
-        $exsistingSectionsArray = explode(',', $_POST['exsistingSections']);
-        if(sizeof($exsistingSectionsArray) > 0){
-            update_post_meta( $post_id, 'sectionArray', $_POST['exsistingSections'] );
-            foreach($exsistingSectionsArray as $section) {
-                update_post_meta( $post_id, 'section_title_'.$section, $_POST['section_title_'.$section] );
-                update_post_meta( $post_id, 'section_content_'.$section, $_POST['section_content_'.$section] );
-                update_post_meta( $post_id, 'section_image_'.$section, $_POST['section_image_'.$section] );
-                if($_POST['section_link_'.$section] !== 'null' || $_POST['section_link_'.$section] != 'externalPage'){
-                    update_post_meta( $post_id, 'section_link_'.$section, $_POST['section_link_'.$section] );
-                    update_post_meta( $post_id, 'section_button_'.$section, $_POST['section_button_'.$section] );
-                    delete_post_meta( $post_id, 'section_link_external_'.$section);
-                }
-                if($_POST['section_image_link_'.$section] !== Null){
-                    update_post_meta( $post_id, 'section_image_link_'.$section, $_POST['section_image_link_'.$section] );
-                }
-                if($_POST['section_link_'.$section] == 'externalPage'){
-                    update_post_meta( $post_id, 'section_link_external_'.$section, $_POST['section_external_link_'.$section] );
-                    update_post_meta( $post_id, 'section_link_'.$section, $_POST['section_link_'.$section] );
-
-                }
-            }
-        }
-    }
-
-}
-add_action( 'save_post', 'save_metaboxes' );
-
-add_action( 'admin_print_scripts', 'display_metaboxes', 1000 );
-
-function display_metaboxes() {
-    global $metaboxes;
-    if ( get_post_type() === "page" ) : ?>
-        <script type="text/javascript">// <![CDATA[
-            $ = jQuery;
-            <?php
-            $formats = $ids = array();
-            foreach ( $metaboxes as $id => $metabox ) {
-                if($metabox['display_condition']){
-                    array_push( $formats, "'" . $metabox['display_condition'] . "': '" . $id . "'" );
-                    array_push( $ids, "#" . $id );
-                }
-            }
-            ?>
-            var formats = { <?php echo implode( ',', $formats );?> };
-            var ids = "<?php echo implode( ',', $ids ); ?>";
-            function displayMetaboxes() {
-
-            $(ids).hide();
-
-            var selectedElt = $("input[name='post_format']:checked").attr("id");
-            var selectedTemplate = $("select#page_template option:selected").text();
-
-            if ( formats[selectedTemplate] )
-                $("#" + formats[selectedTemplate]).fadeIn();
-        }
-
-        $(function() {
-            displayMetaboxes();
-
-            $("select#page_template").change(function() {
-                // $('.customInput').val('');
-                displayMetaboxes();
-            });
-        });
-
-        // ]]></script>
-    <?php
-    endif;
 }
