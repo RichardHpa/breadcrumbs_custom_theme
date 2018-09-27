@@ -65,10 +65,10 @@ function customThemeSupport(){
     add_theme_support( 'title-tag' );
 }
 add_action('init', 'customThemeSupport');
-
 /*
     Extra files which are required for the theme
 */
+require get_parent_theme_file_path('/customizer/maintenance.php');
 require get_parent_theme_file_path('/customizer/walkers/class-wp-bootstrap-navwalker.php');
 require get_parent_theme_file_path('/customizer/custom_customize_sections.php');
 require get_parent_theme_file_path('/customizer/custom_fields.php');
