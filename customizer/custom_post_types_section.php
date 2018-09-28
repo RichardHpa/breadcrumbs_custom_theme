@@ -92,40 +92,6 @@ function companies_init() {
 }
 add_action( 'init', 'companies_init' );
 
-function promotions_init() {
-    $labels = array(
-        'name'               => _x( 'Promotions', 'Breadcrumbs' ),
-        'singular_name'      => _x( 'Promotion', 'Breadcrumbs' ),
-        'menu_name'          => _x( 'Promotions', 'Breadcrumbs' ),
-        'name_admin_bar'     => _x( 'Promotion', 'Breadcrumbs' ),
-        'add_new'            => _x( 'Add a new Promotion', 'Breadcrumbs' ),
-        'add_new_item'       => __( 'Add a new Promotion', 'Breadcrumbs' ),
-        'new_item'           => __( 'New Promotion', 'Breadcrumbs' ),
-        'edit_item'          => __( 'Edit Promotion', 'Breadcrumbs' ),
-        'view_item'          => __( 'View Promotion', 'Breadcrumbs' ),
-        'all_items'          => __( 'All Promotions', 'Breadcrumbs' ),
-        'search_items'       => __( 'Search Promotions', 'Breadcrumbs' ),
-        'parent_item_colon'  => __( 'Parent Promotions:', 'Breadcrumbs' ),
-        'not_found'          => __( 'No Promotions found.', 'Breadcrumbs' ),
-        'not_found_in_trash' => __( 'No Promotions found in Trash.', 'Breadcrumbs' )
-    );
-    $args = array(
-      'labels' => $labels,
-        'public' => true,
-        'show_ui' => true,
-        'capability_type' => 'post',
-        'hierarchical' => false,
-        'query_var' => true,
-        'menu_icon' => 'dashicons-megaphone',
-        'supports' => array(
-            'title',
-            'thumbnail',
-            'editor')
-        );
-    register_post_type( 'promotions', $args );
-}
-add_action( 'init', 'promotions_init' );
-
 function promotions_icons_init() {
     $labels = array(
         'name'               => _x( 'Promotions Icons', 'Breadcrumbs' ),
