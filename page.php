@@ -1,6 +1,5 @@
 <?php get_header(); ?>
 
-<?php if ( !empty( get_the_content() ) ): ?>
     <?php if(have_posts()): ?>
         <div class="container mb-5 mt-5">
             <?php while(have_posts()): the_post();?>
@@ -12,7 +11,6 @@
             <?php endwhile; ?>
         </div>
     <?php endif; ?>
-<?php endif; ?>
 
 <div class="aboutSection">
     <?php if(get_post_meta( $id , 'page_video', true)): ?>
