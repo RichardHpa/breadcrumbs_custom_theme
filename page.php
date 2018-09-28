@@ -47,7 +47,7 @@
                             $link = get_post_meta( $id , 'section_link_external_'.$section, true);
                         }
                     ?>
-                    <div class="alternatingSection mb-5">
+                    <div class="alternatingSection pb-5">
                         <div class="halfSection">
                             <h3><?php echo get_post_meta( $id , 'section_title_'.$section, true); ?></h3>
                             <div>
