@@ -70,7 +70,7 @@ get_header(); ?>
 
 <?php
     $args = array(
-        'post_type' => 'promotions'
+        'post_type' => 'promotions_icons'
     );
     $promotions = new WP_Query( $args );
 ?>
