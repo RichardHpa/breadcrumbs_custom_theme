@@ -1,15 +1,22 @@
 <?php get_header(); ?>
 
+
+
+
+
+
     <?php if(have_posts()): ?>
-        <div class="container mb-5 mt-5">
-            <?php while(have_posts()): the_post();?>
-                <div class="row">
-                    <div class="col-12 wp_content">
-                        <?php the_content(); ?>
+        <?php if($post->post_content !==""): ?>
+            <div class="container mb-5 mt-5">
+                <?php while(have_posts()): the_post();?>
+                    <div class="row">
+                        <div class="col-12 wp_content">
+                            <?php the_content(); ?>
+                        </div>
                     </div>
-                </div>
-            <?php endwhile; ?>
-        </div>
+                <?php endwhile; ?>
+            </div>
+        <?php endif; ?>
     <?php endif; ?>
 
 <div class="aboutSection">
