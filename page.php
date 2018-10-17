@@ -21,7 +21,7 @@
 
 <div class="aboutSection">
     <?php if(get_post_meta( $id , 'page_video', true)): ?>
-        <div class="container video mb-5 mt-5">
+        <div class="container video pb-5 pt-5">
             <?php
                 $videoURL = get_post_meta( $id , 'page_video', true);
                 $embed_code = wp_oembed_get($videoURL);

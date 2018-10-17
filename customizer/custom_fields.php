@@ -293,3 +293,130 @@ function show_metaboxes( $post, $args ) {
     }
     echo $output;
 }
+
+function save_metaboxes( $post_id ) {
+
+    global $metaboxes;
+
+    if ( ! wp_verify_nonce( $_POST['post_format_meta_box_nonce'], basename( __FILE__ ) ) )
+        return $post_id;
+
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+        return $post_id;
+
+    if ( 'page' == $_POST['post_type'] ) {
+        if ( ! current_user_can( 'edit_page', $post_id ) )
+            return $post_id;
+    } elseif ( ! current_user_can( 'edit_post', $post_id ) ) {
+        return $post_id;
+    }
+    $post_type = get_post_type();
+
+    foreach ( $metaboxes as $id => $metabox ) {
+        if ( $metabox['applicableto'] == $post_type ) {
+            $fields = $metaboxes[$id]['fields'];
+
+            foreach ( $fields as $id => $field ) {
+                $old = get_post_meta( $post_id, $id, true );
+                $new = $_POST[$id];
+
+                if ( $new && $new != $old ) {
+                    update_post_meta( $post_id, $id, $new );
+                }
+                elseif ( '' == $new && $old || ! isset( $_POST[$id] ) ) {
+                    delete_post_meta( $post_id, $id, $old );
+                }
+            }
+        }
+    }
+
+    if($_POST['deletingSections']){
+        $exsistingDeleteArray = explode(',', $_POST['deletingSections']);
+        if(sizeof($exsistingDeleteArray) > 0){
+            update_post_meta( $post_id, 'sectionArray', $_POST['exsistingSections'] );
+            foreach($exsistingDeleteArray as $section) {
+                $title =  get_post_meta( $post->ID, 'section_title_'.$section, true );
+                $content =  get_post_meta( $post->ID, 'section_content_'.$section, true );
+                $image =  get_post_meta( $post->ID, 'section_image_'.$section, true );
+                $imageLink = get_post_meta( $post->ID, 'section_image_link_'.$section, true );
+
+                delete_post_meta( $post_id, 'section_title_'.$section);
+                delete_post_meta( $post_id, 'section_content_'.$section);
+                delete_post_meta( $post_id, 'section_image_'.$section);
+                delete_post_meta( $post_id, 'section_link_'.$section);
+                delete_post_meta( $post_id, 'section_button_'.$section);
+                delete_post_meta( $post_id, 'section_image_link_'.$section);
+
+            }
+        }
+    }
+    if($_POST['exsistingSections']){
+        $exsistingSectionsArray = explode(',', $_POST['exsistingSections']);
+        if(sizeof($exsistingSectionsArray) > 0){
+            update_post_meta( $post_id, 'sectionArray', $_POST['exsistingSections'] );
+            foreach($exsistingSectionsArray as $section) {
+                update_post_meta( $post_id, 'section_title_'.$section, $_POST['section_title_'.$section] );
+                update_post_meta( $post_id, 'section_content_'.$section, $_POST['section_content_'.$section] );
+                update_post_meta( $post_id, 'section_image_'.$section, $_POST['section_image_'.$section] );
+                if($_POST['section_link_'.$section] !== 'null' || $_POST['section_link_'.$section] != 'externalPage'){
+                    update_post_meta( $post_id, 'section_link_'.$section, $_POST['section_link_'.$section] );
+                    update_post_meta( $post_id, 'section_button_'.$section, $_POST['section_button_'.$section] );
+                    delete_post_meta( $post_id, 'section_link_external_'.$section);
+                }
+                if($_POST['section_image_link_'.$section] !== Null){
+                    update_post_meta( $post_id, 'section_image_link_'.$section, $_POST['section_image_link_'.$section] );
+                }
+                if($_POST['section_link_'.$section] == 'externalPage'){
+                    update_post_meta( $post_id, 'section_link_external_'.$section, $_POST['section_external_link_'.$section] );
+                    update_post_meta( $post_id, 'section_link_'.$section, $_POST['section_link_'.$section] );
+
+                }
+            }
+        }
+    }
+
+}
+add_action( 'save_post', 'save_metaboxes' );
+
+add_action( 'admin_print_scripts', 'display_metaboxes', 1000 );
+
+function display_metaboxes() {
+    global $metaboxes;
+    if ( get_post_type() === "page" ) : ?>
+        <script type="text/javascript">// <![CDATA[
+            $ = jQuery;
+            <?php
+            $formats = $ids = array();
+            foreach ( $metaboxes as $id => $metabox ) {
+                if($metabox['display_condition']){
+                    array_push( $formats, "'" . $metabox['display_condition'] . "': '" . $id . "'" );
+                    array_push( $ids, "#" . $id );
+                }
+            }
+            ?>
+            var formats = { <?php echo implode( ',', $formats );?> };
+            var ids = "<?php echo implode( ',', $ids ); ?>";
+            function displayMetaboxes() {
+
+            $(ids).hide();
+
+            var selectedElt = $("input[name='post_format']:checked").attr("id");
+            var selectedTemplate = $("select#page_template option:selected").text();
+
+            if ( formats[selectedTemplate] )
+                $("#" + formats[selectedTemplate]).fadeIn();
+        }
+
+        $(function() {
+            displayMetaboxes();
+
+            $("select#page_template").change(function() {
+                // $('.customInput').val('');
+                displayMetaboxes();
+            });
+        });
+
+        // ]]></script>
+    <?php
+    endif;
+}
